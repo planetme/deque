@@ -1,5 +1,5 @@
-local Dequeue = {}
-Dequeue.__index = Dequeue
+local Deque = {}
+Deque.__index = Deque
 
 local function copyTab(tab)
 	local newTab = {}
@@ -11,19 +11,19 @@ local function copyTab(tab)
 	return newTab
 end
 
-function Dequeue:PushLeft(element)
+function Deque:PushLeft(element)
 	self[self._left] = element
 	self._left -= 1
 	self._size += 1
 end
 
-function Dequeue:PushRight(element)
+function Deque:PushRight(element)
 	self[self._right] = element
 	self._right += 1
 	self._size += 1
 end
 
-function Dequeue:PopLeft()
+function Deque:PopLeft()
 	if self._size <= 0 then
         return
     end
@@ -36,7 +36,7 @@ function Dequeue:PopLeft()
 	return popped
 end
 
-function Dequeue:PopRight()
+function Deque:PopRight()
 	if self._size <= 0 then return end
 	self._right -= 1
 	local popped = self[self._right]
@@ -45,27 +45,27 @@ function Dequeue:PopRight()
 	return popped
 end
 
-function Dequeue:ToArray()
+function Deque:ToArray()
 	if self._size <= 0 then return {} end
 	local arr = table.create(self._size, nil)
 	table.move(self, self._left + 1, self._right - 1, 1, arr)
 	return arr
 end
 
-function Dequeue:Rightmost()
+function Deque:Rightmost()
 	return self[self._left + 1]
 end
 
-function Dequeue:Leftmost()
+function Deque:Leftmost()
 	return self[self._right - 1]
 end
 
-function Dequeue:Size()
+function Deque:Size()
 	return self._size
 end
 
-function Dequeue.new(arr)
-	local self = setmetatable({}, Dequeue)
+function Deque.new(arr)
+	local self = setmetatable({}, Deque)
 
 	self._arr = copyTab(arr or {})
 	self._size = #self._arr
@@ -76,4 +76,4 @@ function Dequeue.new(arr)
 	return self
 end
 
-return Dequeue
+return Deque
